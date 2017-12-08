@@ -5,7 +5,13 @@ module Zoho
       def on_complete(env)
         json = MultiJson.load(env[:body], :symbolize_keys => true)
 
-
+        if json[:response][:result].nil?
+          env[:body] = {
+              data: env[:url].to_s =~ /getRecordById/ ? nil : [],
+              errors: json[:response].collect {|k,v| v['message']}
+          }
+          return
+        end
         entity = json[:response][:result].keys.first.to_s.downcase.singularize
         row = Array.wrap(json[:response][:result].values.first[:row])
         records = row.collect do |record|
