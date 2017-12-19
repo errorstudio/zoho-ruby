@@ -2,6 +2,7 @@ module Zoho
   module CRM
     class Base
       include Her::Model
+      include FieldTypes
       use_api -> {Zoho::CRM.configuration.connection}
 
       def self.inherited(klass)
