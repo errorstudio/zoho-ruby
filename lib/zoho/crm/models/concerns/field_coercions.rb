@@ -46,14 +46,18 @@ module Zoho
 
         def handle_picklist(raw)
           if raw.present? && raw.is_a?(String)
-            raw.split(";")
+            raw.split(";").first #this is for safety really - if it's a picklist, it should only have option option
           else
             raw
           end
         end
 
         def handle_multi_select(raw)
-          handle_picklist(raw)
+          if raw.present? && raw.is_a?(String)
+            raw.split(";")
+          else
+            raw
+          end
         end
 
         def handle_single_line(raw)
