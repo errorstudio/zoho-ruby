@@ -4,10 +4,6 @@ module Zoho
       extend ActiveSupport::Concern
 
       class_methods do
-        def zoho_entity_name
-          self.to_s.demodulize.pluralize
-        end
-
         def create(attrs)
           self.new(attrs).save
         end

@@ -41,6 +41,10 @@ module Zoho
         results.flatten
       end
 
+      def self.zoho_entity_name
+        self.to_s.demodulize.pluralize
+      end
+
 
 
     end

@@ -2,6 +2,8 @@ module Zoho
   module CRM
     class Contact < Base
       include Persistence
+      include Searchable
+      
       collection_path "json/Contacts/getRecords"
       primary_key :contactid
       resource_path "json/Contacts/getRecordById?id=:contactid"
@@ -12,6 +14,11 @@ module Zoho
 
       def account
         Account.find(accountid)
+      end
+
+      def self.find_by_email(email)
+        results = find_by_field(field: :email, value: email)
+        results.first if results
       end
 
       # Zoho expects this:
