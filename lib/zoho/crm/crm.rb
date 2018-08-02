@@ -19,7 +19,7 @@ module Zoho
         @ssl_options = {}
         @proxy = nil
         @connection ||= Her::API.new
-        @base_url ||= 'https://crm.zoho.eu/crm/private/json'
+        @base_url ||= 'https://crm.zoho.eu/crm/private'
         @api_version ||= 2
         @user_agent ||= "Ruby Zoho client #{Zoho::VERSION} (http://github.com/errorstudio/zoho-ruby)"
         @new_format ||= 2
