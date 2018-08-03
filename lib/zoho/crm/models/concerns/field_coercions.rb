@@ -24,6 +24,7 @@ module Zoho
               end
             end
           end
+          record.send(:clear_changes_information)
         end
         
         record.created_time = DateTime.parse(record.created_time)
@@ -31,7 +32,17 @@ module Zoho
 
         record.modified_time = DateTime.parse(record.modified_time)
         record.updated_at = record.modified_time
+
+        before_save do |record|
+          record.class.send(:multi_select_fields).each do |field|
+            original = self.class.send(:reverse_multi_select, record.send(field))
+            record.send(:"#{field}", original)
+          end
+        end
+
       end
+
+
 
       # Methods which return the mutated content for each field type
       class_methods do
@@ -57,6 +68,14 @@ module Zoho
             raw.split(";")
           else
             raw
+          end
+        end
+
+        def reverse_multi_select(mutated)
+          if mutated.present? && mutated.is_a?(Array)
+            mutated.join(";")
+          else
+            mutated
           end
         end
 

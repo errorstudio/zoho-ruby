@@ -20,6 +20,7 @@ module Zoho
                 param_name = param.match(/id$/i) ? param.upcase : param.to_s.humanize.titleize
                 xml.send(:FL, {val: param_name}, send(param))
               end
+              xml.send(:FL, {val: "Imported Via Api"}, true)
             }
           }
         end
@@ -40,11 +41,11 @@ module Zoho
       end
 
       def update_path
-        "xml/#{self.class.zoho_entity_name}/updateRecords?id=#{self.send(self.class.primary_key)}"
+        "xml/#{self.class.zoho_entity_name}/updateRecords?id=#{self.send(self.class.primary_key)}&wfTrigger=true"
       end
 
       def create_path
-        "xml/#{self.class.zoho_entity_name}/insertRecords"
+        "xml/#{self.class.zoho_entity_name}/insertRecords?wfTrigger=true"
       end
     end
   end
